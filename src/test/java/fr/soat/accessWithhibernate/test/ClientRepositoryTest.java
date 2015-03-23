@@ -41,7 +41,8 @@ public class ClientRepositoryTest extends GenericRespositoryTest {
 
 	@Test
 	public void recuperer_un_client_via_son_id() {
-
+		Client client = clientRepository.findOneEntityById(Client.class, 1);
+		System.out.println("Client 1 est " + client.toString());
 	}
 
 	@Test

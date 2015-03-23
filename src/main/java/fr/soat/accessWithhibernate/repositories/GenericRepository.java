@@ -7,14 +7,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-
-
-public class GenericRepository<E extends Serializable, PK extends Serializable> implements IGenericRepository<E, PK> {
+public class GenericRepository<E extends Serializable, PK extends Serializable>
+		implements IGenericRepository<E, PK> {
 
 	@PersistenceContext
 	EntityManager entityManager;
-	
-	
+
 
 	@Transactional
 	public void create(E entity) {
@@ -32,13 +30,13 @@ public class GenericRepository<E extends Serializable, PK extends Serializable> 
 	}
 
 	@Override
-	public E findOneEntityById(PK id) {
-		return null;
+	public E findOneEntityById(Class<E> clazz, PK id) {
+		return entityManager.find(clazz, id);
 	}
 
 	@Override
 	public List<E> findAllEntities() {
-		return null;
+		return entityManager.f;
 	}
 
 }

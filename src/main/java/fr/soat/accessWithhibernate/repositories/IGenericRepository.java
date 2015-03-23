@@ -10,7 +10,7 @@ public interface IGenericRepository<E, PK> {
 
 	void delete(E entity);
 
-	E findOneEntityById(PK id);
+	E findOneEntityById(Class<E> clazz, PK id);
 
 	List<E> findAllEntities();
 }

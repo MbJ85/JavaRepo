@@ -31,7 +31,7 @@ public class Client implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID_CLIENT")
+	@Column(name = "ID_CLIENT")
 	private int idClient;
 
 	@Column(name = "NOM_CLIENT")
@@ -96,6 +96,14 @@ public class Client implements Serializable {
 
 	public void setAgeClient(int ageClient) {
 		this.ageClient = ageClient;
+	}
+
+	@Override
+	public String toString() {
+		return "Client [idClient=" + idClient + ", nomClient=" + nomClient
+				+ ", prenomClient=" + prenomClient + ", villeClient="
+				+ villeClient + ", dateNaissanceClient=" + dateNaissanceClient
+				+ ", ageClient=" + ageClient + "]";
 	}
 
 }
