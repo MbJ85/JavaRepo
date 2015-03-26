@@ -1,5 +1,7 @@
 package fr.soat.accessWithhibernate.test;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.joda.time.DateTime;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
 import fr.soat.accessWithhibernate.domain.Client;
+import fr.soat.accessWithhibernate.domain.Commande;
 import fr.soat.accessWithhibernate.repositories.IClientRepository;
 
 public class ClientRepositoryTest extends GenericRespositoryTest {
@@ -40,13 +43,91 @@ public class ClientRepositoryTest extends GenericRespositoryTest {
 	}
 
 	@Test
+	@Transactional
 	public void recuperer_un_client_via_son_id() {
 		Client client = clientRepository.findOneEntityById(Client.class, 1);
-		System.out.println("Client 1 est " + client.toString());
+		System.out.println("Client 1 est "  );
+		List<Commande> commandes = client.getCommandes();
+		System.out.println("***** Client 1 est " + client.toString());
+		System.out.println("Commandes " + commandes.size());
+	}
+	
+	
+	@Test
+	@Transactional
+	public void recuperer_tous_les_clients() {
+		List<Client> clients= clientRepository.findAllEntities(Client.class);
+		System.out.println("***** CLIENTS SIZE ******** " + clients.size());
+		for (Client client : clients) {
+			System.out.println("***** CLIENT Details ****** " + client.toString());
+		}
+	}
+
+
+	@Test
+	@Transactional
+	public void recuperer_un_client_via_son_prenom() {
+		List<Client> clients= clientRepository.findClientsByName("Client nv");
+		System.out.println("***** CLIENTS SIZE ******** " + clients.size());
+		for (Client client : clients) {
+			System.out.println("***** CLIENT Details ****** " + client.toString());
+		}
+
 	}
 
 	@Test
-	public void recuperer_un_client_via_son_prenom() {
+	@Transactional
+	public void recuperer_un_client_via_son_age() {
+		List<Client> clients= clientRepository.findClientsByAge("36");
+		System.out.println("***** CLIENTS SIZE ******** " + clients.size());
+		for (Client client : clients) {
+			System.out.println("***** CLIENT Details ****** " + client.toString());
+		}
+
+	}
+
+	@Test
+	@Transactional
+	public void recuperer_un_client_via_sa_ville() {
+		List<Client> clients= clientRepository.findClientsByVille("wonderfull");
+		System.out.println("***** CLIENTS SIZE ******** " + clients.size());
+		for (Client client : clients) {
+			System.out.println("***** CLIENT Details ****** " + client.toString());
+		}
+
+	}
+
+	@Test
+	@Transactional
+	public void recuperer_un_client_via_son_prenom_et_sa_ville() {
+		List<Client> clients= clientRepository.findClientsByNameAndVille("hello", "wonderfull");
+		System.out.println("***** CLIENTS SIZE ******** " + clients.size());
+		for (Client client : clients) {
+			System.out.println("***** CLIENT Details ****** " + client.toString());
+		}
+
+	}
+	
+	@Test
+	@Transactional
+	public void recuperer_un_client_via_son_age_et_le_code_de_sa_commande_en_utilisant_jpql() {
+		List<Client> clients= clientRepository.findClientsCommandes1("36", "Commande le 20 Mars");
+		System.out.println("***** CLIENTS SIZE ******** " + clients.size());
+		for (Client client : clients) {
+			System.out.println("***** CLIENT Details ****** " + client.toString());
+		}
+
+	}
+
+	@Test
+	@Transactional
+	public void recuperer_un_client_via_son_age_et_le_code_de_sa_commande_en_utilisant_native_sql() {
+		List<Client> clients= clientRepository.findClientsCommandes2("36", "Commande le 20 Mars");
+		System.out.println("***** CLIENTS SIZE ******** " + clients.size());
+		for (Client client : clients) {
+			System.out.println("***** CLIENT Details ****** " + client.toString());
+		}
+
 	}
 
 }

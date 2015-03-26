@@ -12,5 +12,5 @@ public interface IGenericRepository<E, PK> {
 
 	E findOneEntityById(Class<E> clazz, PK id);
 
-	List<E> findAllEntities();
+	List<E> findAllEntities(Class<E> clazz);
 }

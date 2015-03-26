@@ -13,7 +13,6 @@ public class GenericRepository<E extends Serializable, PK extends Serializable>
 	@PersistenceContext
 	EntityManager entityManager;
 
-
 	@Transactional
 	public void create(E entity) {
 		entityManager.persist(entity);
@@ -34,9 +33,14 @@ public class GenericRepository<E extends Serializable, PK extends Serializable>
 		return entityManager.find(clazz, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<E> findAllEntities() {
-		return entityManager.f;
+	public List<E> findAllEntities(Class<E> clazz) {
+		System.out
+				.println("***** CLASS NAME ******** " + clazz.getSimpleName());
+		return entityManager.createQuery(
+				"Select e from " + clazz.getSimpleName() + " e")
+				.getResultList();
 	}
 
 }

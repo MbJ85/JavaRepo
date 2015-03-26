@@ -4,12 +4,20 @@
 package fr.soat.accessWithhibernate.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -22,6 +30,17 @@ import org.joda.time.DateTime;
 
 @Entity
 @Table(schema = "test", name = "client")
+@NamedQueries({
+		@NamedQuery(name = "getClientsByName", query = "FROM Client client where client.nomClient = :nomClient "),
+		@NamedQuery(name="getClientsCommandesJPQL", query="SELECT DISTINCT c FROM Client c JOIN c.commandes comm "
+				+ "WHERE c.ageClient = :ageClient AND comm.codeCommande = :codeCommande")
+})
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "getClientsByNameAndVille", query = "SELECT * FROM client client WHERE client.NOM_CLIENT = ? "
+				+ "AND client.VILLE_CLIENT = ? ", resultClass = Client.class),
+		@NamedNativeQuery(name = "getClientsCommandesNativeSQL", query = "SELECT * FROM client client JOIN commande commande "
+				+ "ON client.ID_CLIENT = commande.CLIENT AND client.AGE_CLIENT =  ? "
+				+ "AND commande.CODE_COMMANDE = ?", resultClass = Client.class) })
 public class Client implements Serializable {
 
 	/**
@@ -49,6 +68,9 @@ public class Client implements Serializable {
 
 	@Column(name = "AGE_CLIENT")
 	private int ageClient;
+
+	@OneToMany(mappedBy = "aClient", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	private List<Commande> commandes;
 
 	public int getIdClient() {
 		return idClient;
@@ -98,12 +120,28 @@ public class Client implements Serializable {
 		this.ageClient = ageClient;
 	}
 
+	public List<Commande> getCommandes() {
+		return commandes;
+	}
+
+	public void setCommandes(List<Commande> commandes) {
+		this.commandes = commandes;
+	}
+
 	@Override
 	public String toString() {
+		String commandesString = " size " + this.commandes.size();
+
+		for (Commande commande : this.commandes) {
+			commandesString = commandesString + " nom Commande "
+					+ commande.getCodeComamande() + " id commande "
+					+ commande.getIdCommande();
+		}
+
 		return "Client [idClient=" + idClient + ", nomClient=" + nomClient
 				+ ", prenomClient=" + prenomClient + ", villeClient="
 				+ villeClient + ", dateNaissanceClient=" + dateNaissanceClient
-				+ ", ageClient=" + ageClient + "]";
+				+ ", ageClient=" + ageClient + ", commandes=" + commandesString
+				+ "]";
 	}
-
 }

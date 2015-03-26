@@ -31,7 +31,7 @@ public class CommandeRepositoryTest extends GenericRespositoryTest {
 		commandeRepository.create(commande);
 
 	}
-	
+
 	@Test
 	@Transactional
 	@Rollback(value = false)

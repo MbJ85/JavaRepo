@@ -3,9 +3,9 @@
  */
 package fr.soat.accessWithhibernate.repositories;
 
+import java.util.List;
+
 import fr.soat.accessWithhibernate.domain.Client;
-
-
 
 /**
  * @author Formation
@@ -13,4 +13,15 @@ import fr.soat.accessWithhibernate.domain.Client;
  */
 public interface IClientRepository extends IGenericRepository<Client, Integer> {
 
+	List<Client> findClientsByName(String clientName);
+
+	List<Client> findClientsByVille(String clientVille);
+
+	List<Client> findClientsByAge(String clientAge);
+
+	List<Client> findClientsByNameAndVille(String clientName, String clientVille);
+
+	List<Client> findClientsCommandes1(String ageClient, String codeCommande);
+
+	List<Client> findClientsCommandes2(String ageClient, String codeCommande);
 }

@@ -1,6 +1,7 @@
 package fr.soat.accessWithhibernate.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,11 +29,11 @@ public class Commande implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="ID_COMMANDE")
+	@Column(name = "ID_COMMANDE")
 	private Integer idCommande;
 
 	@Column(name = "CODE_COMMANDE")
-	private String codeComamande;
+	private String codeCommande;
 
 	@Column(name = "DATE_COMMANDE")
 	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -39,6 +42,10 @@ public class Commande implements Serializable {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "CLIENT")
 	private Client aClient;
+
+	@ManyToMany
+	@JoinTable(name = "commande_details", joinColumns = @JoinColumn(name = "ID_COMMANDE", referencedColumnName = "ID_COMMANDE"), inverseJoinColumns = @JoinColumn(name = "ID_ARTICLE", referencedColumnName = "ID_ARTICLE"))
+	private List<Article> articles;
 
 	public Integer getIdCommande() {
 		return idCommande;
@@ -49,11 +56,11 @@ public class Commande implements Serializable {
 	}
 
 	public String getCodeComamande() {
-		return codeComamande;
+		return codeCommande;
 	}
 
 	public void setCodeComamande(String codeComamande) {
-		this.codeComamande = codeComamande;
+		this.codeCommande = codeComamande;
 	}
 
 	public DateTime getDateCommande() {
@@ -70,6 +77,14 @@ public class Commande implements Serializable {
 
 	public void setaClient(Client aClient) {
 		this.aClient = aClient;
+	}
+
+	public List<Article> getArticles() {
+		return articles;
+	}
+
+	public void setArticles(List<Article> articles) {
+		this.articles = articles;
 	}
 
 }
