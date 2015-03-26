@@ -32,8 +32,11 @@ import org.joda.time.DateTime;
 @Table(schema = "test", name = "client")
 @NamedQueries({
 		@NamedQuery(name = "getClientsByName", query = "FROM Client client where client.nomClient = :nomClient "),
-		@NamedQuery(name="getClientsCommandesJPQL", query="SELECT DISTINCT c FROM Client c JOIN c.commandes comm "
-				+ "WHERE c.ageClient = :ageClient AND comm.codeCommande = :codeCommande")
+		@NamedQuery(name = "getClientsCommandesJPQL", query = "SELECT DISTINCT c FROM Client c JOIN c.commandes comm "
+				+ "WHERE c.ageClient = :ageClient AND comm.codeCommande = :codeCommande"),
+		@NamedQuery(name = "getClientsCommandesByDate", query = "SELECT DISTINCT c FROM Client c JOIN c.commandes comm "
+				+ "WHERE c.ageClient = :ageClient AND comm.dateCommande BETWEEN :startDate AND :endDate")
+
 })
 @NamedNativeQueries({
 		@NamedNativeQuery(name = "getClientsByNameAndVille", query = "SELECT * FROM client client WHERE client.NOM_CLIENT = ? "

@@ -129,5 +129,18 @@ public class ClientRepositoryTest extends GenericRespositoryTest {
 		}
 
 	}
+	
+	@Test
+	@Transactional
+	public void recuperer_un_client_via_son_age_et_la_date_de_la_commande() {
+		DateTime startDateTime = new DateTime(2015, 03, 15, 00, 00);
+		DateTime endDateTime = new DateTime(2015, 03, 30, 00, 00);
+		List<Client> clients= clientRepository.findClientsCommandesByDate("36", startDateTime, endDateTime);
+		System.out.println("***** CLIENTS SIZE ******** " + clients.size());
+		for (Client client : clients) {
+			System.out.println("***** CLIENT Details ****** " + client.toString());
+		}
+
+	}
 
 }

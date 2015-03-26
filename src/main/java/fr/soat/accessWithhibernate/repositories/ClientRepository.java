@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 import fr.soat.accessWithhibernate.domain.Client;
@@ -78,6 +79,17 @@ public class ClientRepository extends GenericRepository<Client, Integer>
 				"getClientsCommandesNativeSQL", Client.class);
 		query.setParameter(1, ageClient);
 		query.setParameter(2, codeCommande);
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Client> findClientsCommandesByDate(String ageClient,
+			DateTime startDate, DateTime endDate) {
+		TypedQuery<Client> query = entityManager.createNamedQuery(
+				"getClientsCommandesByDate", Client.class);
+		query.setParameter("ageClient", Integer.parseInt(ageClient));
+		query.setParameter("startDate", startDate);
+		query.setParameter("endDate", endDate);
 		return query.getResultList();
 	}
 
